@@ -1,5 +1,7 @@
 package Bindings;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,11 +21,13 @@ public class ParamTest {
 		driver = new ChromeDriver();
 		driver.get("https://demoqa.com/automation-practice-form");
 	}
-
-	@When("enter {string} and {string}")
-	public void enter_and(String string, String string2) {
-		driver.findElement(By.id("firstName")).sendKeys(string);
-		driver.findElement(By.id("lastName")).sendKeys(string2);
+	
+	@When("enter creds")
+	public void enter_creds(io.cucumber.datatable.DataTable dataTable) {
+		List<List<String>> creds = dataTable.cells();
+		System.out.println(creds);
+		driver.findElement(By.id("firstName")).sendKeys(creds.get(0).get(0));
+		driver.findElement(By.id("lastName")).sendKeys(creds.get(0).get(1));
 	}
 
 	@Then("Quit the browser")
